@@ -1,0 +1,44 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 20px;
+}
+input {
+    margin: 5px;
+}
+button {
+    margin-top: 10px;
+}
+.result {
+    margin-top: 20px;
+    font-weight: bold;
+}
+table {
+    margin-top: 30px;
+    border-collapse: collapse;
+}
+td {
+    width: 40px;
+    height: 40px;
+    text-align: center;
+    vertical-align: middle;
+}
+.black {
+    background-color: green;
+}
+.white {
+    background-color: yellow;
+}
+.black-piece {
+    background-color: black;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    margin: auto;
+}
+.white-piece {
+    background-color: white;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    margin: auto;
+}

@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Калькулятор и Шашечная Доска</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    
+    <h2>Простой калькулятор</h2>
+    <label for="num1">Введите первое число (x):</label>
+    <input type="number" id="num1" required>
+    <br>
+    <label for="num2">Введите второе число (y):</label>
+    <input type="number" id="num2" required>
+    <br>
+    <label for="operation">Введите знак операции (+, -, *, /):</label>
+    <input type="text" id="operation" required maxlength="1">
+    <br>
+    <button onclick="calculate()">Вычислить</button>
+    <div class="result" id="result"></div>
+    <script>
+        function calculate() {
+            const x = parseFloat(document.getElementById('num1').value);
+            const y = parseFloat(document.getElementById('num2').value);
+            const operation = document.getElementById('operation').value;
+            let result;
+            switch (operation) {
+                case '+':
+                    result = x + y;
+                    break;
+                case '-':
+                    result = x - y;
+                    break;
+                case '*':
+                    result = x * y;
+                    break;
+                case '/':
+                    if (y === 0) {
+                        result = 'Ошибка: Деление на ноль!';
+                    } else {
+                        result = x / y;
+                    }
+                    break;
+                default:
+                    result = 'Ошибка: Неверный знак операции!';
+            }
+            document.getElementById('result').innerText = result;
+        }
+    </script>
+
+    <h2>Шашечная доска</h2>
+    <table>
+        <tbody>
+            <script>
+                for (let col = 0; col < 8; col++) {
+                    document.write('<tr>');
+                    for (let row = 7; row >= 0; row--) {
+                        const isBlack = (row + col) % 2 === 1;
+                        const isWhiteRow = row < 3;
+                        const isBlackRow = row > 4;
+                        document.write('<td class="' + (isBlack ? 'black' : 'white') + '">');
+                        if (isWhiteRow && isBlack) {
+                            document.write('<div class="black-piece"></div>');
+                        } else if (isBlackRow && isBlack) {
+                            document.write('<div class="white-piece"></div>');
+                        }
+                        document.write('</td>');
+                    }
+                    document.write('</tr>');
+                }
+            </script>
+        </tbody>
+    </table>
+
+    <h2>Нахождение наибольшей и наименьшей цифры</h2>
+    <label for="numberInput">Введите натуральное число:</label>
+    <input type="number" id="numberInput" required>
+    <br>
+    <button onclick="findMinMaxDigits()">Найти цифры</button>
+    <div class="result" id="digitResult"></div>
+    <script>
+        function findMinMaxDigits() {
+            const number = document.getElementById('numberInput').value;
+            const digits = number.split('').map(Number);
+            const maxDigit = Math.max(...digits);
+            const minDigit = Math.min(...digits);
+            if (number < 0) {
+                document.getElementById('digitResult').innerText = `Ошибка: введите натуральное число!`;
+            } else {
+                document.getElementById('digitResult').innerText = `Наибольшая цифра: ${maxDigit}, Наименьшая цифра: ${minDigit}`;
+            }
+        }
+    </script>
+
+    <h2>Проверка совпадения цифр</h2>
+    <label for="mInput">Введите первое натуральное число (m):</label>
+    <input type="number" id="mInput" required>
+    <br>
+    <label for="nInput">Введите второе натуральное число (n):</label>
+    <input type="number" id="nInput" required>
+    <br>
+    <button onclick="checkDigitMatch()">Проверить совпадение</button>
+    <div class="result" id="matchResult"></div>
+    <script>
+        function checkDigitMatch() {
+            const m = document.getElementById('mInput').value;
+            const n = document.getElementById('nInput').value;
+            const mDigits = new Set(m.split(''));
+            const nDigits = new Set(n.split(''));
+            const intersection = [...mDigits].filter(digit => nDigits.has(digit));
+            if (m < 0 || n < 0) {
+                document.getElementById('matchResult').innerText = 'Ошибка: введите натуральные числа';
+            } else if (intersection.length > 0) {
+                document.getElementById('matchResult').innerText = `Совпадающие цифры: ${intersection.join(', ')}`;
+            } else {
+                document.getElementById('matchResult').innerText = 'Совпадающих цифр нет.';
+            }
+        }
+    </script>
+
+</body>
+</html>
