@@ -1,0 +1,97 @@
+body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 20px;
+    background-color: #f5f5f5;
+}
+.container {
+    max-width: 1000px;
+    margin: 0 auto;
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+h1 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 30px;
+}
+.tabs {
+    display: flex;
+    border-bottom: 1px solid #ddd;
+    margin-bottom: 20px;
+}
+.tabs a {
+    text-decoration: none;
+}
+.tabs a span {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #f1f1f1;
+    border-radius: 5px 5px 0 0;
+    margin-right: 5px;
+    color: #333;
+    transition: all 0.3s;
+}
+.tabs a span.active {
+    background-color: #4CAF50;
+    color: white;
+}
+.tabs a span:hover:not(.active) {
+    background-color: #ddd;
+}
+.content {
+    min-height: 300px;
+}
+.car-card {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 15px;
+    margin-bottom: 15px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+.car-card h3 {
+    margin-top: 0;
+    color: #4CAF50;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 10px;
+}
+.car-card p {
+    margin: 5px 0;
+}
+.input-group {
+    margin-bottom: 15px;
+}
+.input-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+.input-group input {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+button {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+}
+button:hover {
+    background-color: #45a049;
+}
+.group-header {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px;
+    border-radius: 4px;
+    margin: 20px 0 10px 0;
+}

@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Покерная раздача</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .card-inputs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        .card-select {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+        select {
+            padding: 5px;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-bottom: 20px;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        .hand-container {
+            display: flex;
+            gap: 10px;
+            margin: 20px 0;
+            flex-wrap: wrap;
+        }
+        .card-img {
+            width: auto;
+            height: auto;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+        .result {
+            margin-top: 20px;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            background-color: #f9f9f9;
+            font-size: 18px;
+        }
+        h1 {
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <h1>Проверка стрит-флеша с изображениями карт</h1>
+    
+    <h3>Выберите 5 карт:</h3>
+    <div class="card-inputs">
+        <div class="card-select">
+            <select id="card1-rank" class="card-rank">
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                <option value="6">6</option>
+                <option value="7">7</option>
+                <option value="8">8</option>
+                <option value="9">9</option>
+                <option value="10">10</option>
+                <option value="J">Валет</option>
+                <option value="Q">Дама</option>
+                <option value="K">Король</option>
+                <option value="A">Туз</option>
+            </select>
+            <select id="card1-suit" class="card-suit">
+                <option value="hearts">Черви</option>
+                <option value="diamonds">Бубны</option>
+                <option value="clubs">Трефы</option>
+                <option value="spades">Пики</option>
+            </select>
+        </div>
+        
+        <div class="card-select">
+            <select id="card2-rank" class="card-rank">
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                <option value="6">6</option>
+                <option value="7">7</option>
+                <option value="8">8</option>
+                <option value="9">9</option>
+                <option value="10">10</option>
+                <option value="J">Валет</option>
+                <option value="Q">Дама</option>
+                <option value="K">Король</option>
+                <option value="A">Туз</option>
+            </select>
+            <select id="card2-suit" class="card-suit">
+                <option value="hearts">Черви</option>
+                <option value="diamonds">Бубны</option>
+                <option value="clubs">Трефы</option>
+                <option value="spades">Пики</option>
+            </select>
+        </div>
+        
+        <div class="card-select">
+            <select id="card3-rank" class="card-rank">
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                <option value="6">6</option>
+                <option value="7">7</option>
+                <option value="8">8</option>
+                <option value="9">9</option>
+                <option value="10">10</option>
+                <option value="J">Валет</option>
+                <option value="Q">Дама</option>
+                <option value="K">Король</option>
+                <option value="A">Туз</option>
+            </select>
+            <select id="card3-suit" class="card-suit">
+                <option value="hearts">Черви</option>
+                <option value="diamonds">Бубны</option>
+                <option value="clubs">Трефы</option>
+                <option value="spades">Пики</option>
+            </select>
+        </div>
+        
+        <div class="card-select">
+            <select id="card4-rank" class="card-rank">
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                <option value="6">6</option>
+                <option value="7">7</option>
+                <option value="8">8</option>
+                <option value="9">9</option>
+                <option value="10">10</option>
+                <option value="J">Валет</option>
+                <option value="Q">Дама</option>
+                <option value="K">Король</option>
+                <option value="A">Туз</option>
+            </select>
+            <select id="card4-suit" class="card-suit">
+                <option value="hearts">Черви</option>
+                <option value="diamonds">Бубны</option>
+                <option value="clubs">Трефы</option>
+                <option value="spades">Пики</option>
+            </select>
+        </div>
+        
+        <div class="card-select">
+            <select id="card5-rank" class="card-rank">
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                <option value="6">6</option>
+                <option value="7">7</option>
+                <option value="8">8</option>
+                <option value="9">9</option>
+                <option value="10">10</option>
+                <option value="J">Валет</option>
+                <option value="Q">Дама</option>
+                <option value="K">Король</option>
+                <option value="A">Туз</option>
+            </select>
+            <select id="card5-suit" class="card-suit">
+                <option value="hearts">Черви</option>
+                <option value="diamonds">Бубны</option>
+                <option value="clubs">Трефы</option>
+                <option value="spades">Пики</option>
+            </select>
+        </div>
+    </div>
+    
+    <button id="checkStraightFlush">Проверить стрит-флеш</button>
+    
+    <h3>Ваша раздача:</h3>
+    <div class="hand-container" id="handDisplay"></div>
+    
+    <div class="result" id="result"></div>
+
+    <script>
+        const RANKS = ["2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K", "A"];
+        const SUITS = ["hearts", "diamonds", "clubs", "spades"];
+        
+        function getRankValue(rank) {
+            return RANKS.indexOf(rank) + 2;
+        }
+        
+        function getCurrentHand() {
+            const hand = [];
+            
+            for (let i = 1; i <= 5; i++) {
+                const rank = document.getElementById(`card${i}-rank`).value;
+                const suit = document.getElementById(`card${i}-suit`).value;
+                hand.push({ rank, suit });
+            }
+            
+            return hand;
+        }
+        
+        function displayHand(hand) {
+            const handDisplay = document.getElementById('handDisplay');
+            handDisplay.innerHTML = '';
+            
+            hand.forEach(card => {
+                const cardElement = document.createElement('img');
+                cardElement.className = 'card-img';
+                cardElement.src = `cards/${card.rank}_${card.suit}.png`;
+                cardElement.alt = `${card.rank} ${card.suit}`;
+                handDisplay.appendChild(cardElement);
+            });
+        }
+        
+        function isStraightFlush(hand) {
+            const firstSuit = hand[0].suit;
+            if (!hand.every(card => card.suit === firstSuit)) {
+                return false;
+            }   
+            const rankValues = hand.map(card => getRankValue(card.rank));
+            
+            rankValues.sort((a, b) => a - b);
+            if (rankValues[4] - rankValues[0] === 4 && new Set(rankValues).size === 5) {
+                return true;
+            }
+            
+            if (rankValues.join(',') === '2,3,4,5,14') {
+                return true;
+            }
+            
+            return false;
+        }
+        
+        document.getElementById('checkStraightFlush').addEventListener('click', function() {
+            const hand = getCurrentHand();
+            displayHand(hand);
+            
+            if (isStraightFlush(hand)) {
+                document.getElementById('result').textContent = "Результат: Это стрит-флеш!";
+            } else {
+                document.getElementById('result').textContent = "Результат: Это не стрит-флеш";
+            }
+        });
+        
+        displayHand(getCurrentHand());
+
+        document.querySelectorAll('select').forEach(select => {
+            select.addEventListener('change', function() {
+                displayHand(getCurrentHand());
+                document.getElementById('result').textContent = '';
+            });
+        });
+    </script>
+</body>
+</html>

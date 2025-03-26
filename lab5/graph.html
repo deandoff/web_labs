@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>График функции</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .graph-container {
+            width: 500px;
+            height: 500px;
+            border: 1px solid #ccc;
+            position: relative;
+            overflow: hidden;
+            margin: 20px auto;
+        }
+        .controls {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        .control-group {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+        }
+        button {
+            padding: 8px 15px;
+            cursor: pointer;
+            background-color: #f0f0f0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            min-width: 40px;
+        }
+        button:hover {
+            background-color: #e0e0e0;
+        }
+        #status {
+            text-align: center;
+            margin-bottom: 15px;
+            font-size: 1.1em;
+        }
+        .grid-line {
+            position: absolute;
+            background-color: rgba(0, 0, 0, 0.1);
+            border-left: 1px dashed black;
+            border-top: 1px dashed black;
+        }
+        .axis {
+            position: absolute;
+            background-color: black;
+        }
+        .axis-label {
+            position: absolute;
+            font-size: 12px;
+        }
+        .point {
+            position: absolute;
+            width: 3px;
+            height: 3px;
+            background-color: blue;
+            border-radius: 50%;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        .formula {
+            text-align: center;
+            font-size: 1.2em;
+            margin-bottom: 20px;
+            font-style: italic;
+        }
+    </style>
+</head>
+<body>
+    <h1>График функции</h1>
+    <div class="formula">f(x) = x - 2·eˣ</div>
+    
+    <div class="controls">
+        <div class="control-group">
+            <label>Масштаб</label>
+            <div>
+                <button id="zoomIn">+</button>
+                <button id="zoomOut">-</button>
+            </div>
+        </div>
+        <div class="control-group">
+            <label>Сдвиг по X</label>
+            <div>
+                <button id="moveLeft">←</button>
+                <button id="moveRight">→</button>
+            </div>
+        </div>
+        <div class="control-group">
+            <label>Сдвиг по Y</label>
+            <div>
+                <button id="moveUp">↑</button>
+                <button id="moveDown">↓</button>
+            </div>
+        </div>
+    </div>
+    
+    <div id="status">Масштаб: 1.0, Сдвиг X: 0, Сдвиг Y: 0</div>
+    
+    <div class="graph-container" id="graph"></div>
+
+    <script>
+        let scale = 1.0;
+        let xOffset = 0;
+        let yOffset = 0;
+        const scaleStep = 0.1;
+        const moveStep = 10;
+        
+        const urlParams = new URLSearchParams(window.location.search);
+        
+        function getSafeParam(param, defaultValue, min, max) {
+            const value = parseFloat(urlParams.get(param));
+            return !isNaN(value) && value >= min && value <= max ? value : defaultValue;
+        }
+        
+        scale = getSafeParam('scale', 1.0, 0.1, 10);
+        xOffset = getSafeParam('xOffset', 0, -200, 200);
+        yOffset = getSafeParam('yOffset', 0, -200, 200);
+        
+        function updateURL() {
+            const newUrl = new URL(window.location.href);
+            newUrl.searchParams.set('scale', scale.toFixed(1));
+            newUrl.searchParams.set('xOffset', Math.round(xOffset));
+            newUrl.searchParams.set('yOffset', Math.round(yOffset));
+            window.history.pushState({}, '', newUrl);
+            updateStatus();
+        }
+
+        function updateStatus() {
+            document.getElementById('status').textContent = 
+                `Масштаб: ${scale.toFixed(1)}, Сдвиг X: ${Math.round(xOffset)}, Сдвиг Y: ${Math.round(yOffset)}`;
+        }
+        
+        function calculateFunction(x) {
+            return x - 2 * Math.exp(x);
+        }
+        
+        function drawGraph() {
+            const graphContainer = document.getElementById('graph');
+            graphContainer.innerHTML = '';
+            
+            const width = graphContainer.clientWidth;
+            const height = graphContainer.clientHeight;
+            const centerX = width / 2 + xOffset;
+            const centerY = height / 2 + yOffset;
+            const pixelsPerUnit = 30 * scale;
+
+            const gridStep = 50 / scale;
+            const gridLines = 6;
+            
+            for (let i = -gridLines; i <= gridLines; i++) {
+                const x = centerX + i * gridStep * pixelsPerUnit;
+                if (x >= 0 && x <= width) {
+                    const line = document.createElement('div');
+                    line.className = 'grid-line';
+                    line.style.left = x + 'px';
+                    line.style.top = '0';
+                    line.style.width = '1px';
+                    line.style.height = height + 'px';
+                    graphContainer.appendChild(line);
+                    
+                    if (i !== 0) {
+                        const label = document.createElement('div');
+                        label.className = 'axis-label';
+                        label.textContent = i;
+                        label.style.left = (x - 10) + 'px';
+                        label.style.top = (centerY + 5) + 'px';
+                        graphContainer.appendChild(label);
+                    }
+                }
+            }
+
+            for (let i = -gridLines; i <= gridLines; i++) {
+                const y = centerY - i * gridStep * pixelsPerUnit;
+                if (y >= 0 && y <= height) {
+                    const line = document.createElement('div');
+                    line.className = 'grid-line';
+                    line.style.left = '0';
+                    line.style.top = y + 'px';
+                    line.style.width = width + 'px';
+                    line.style.height = '1px';
+                    graphContainer.appendChild(line);
+                    
+                    if (i !== 0) {
+                        const label = document.createElement('div');
+                        label.className = 'axis-label';
+                        label.textContent = i;
+                        label.style.left = (centerX + 5) + 'px';
+                        label.style.top = (y - 10) + 'px';
+                        graphContainer.appendChild(label);
+                    }
+                }
+            }
+
+            const xAxis = document.createElement('div');
+            xAxis.className = 'axis';
+            xAxis.style.left = '0';
+            xAxis.style.top = centerY + 'px';
+            xAxis.style.width = width + 'px';
+            xAxis.style.height = '2px';
+            graphContainer.appendChild(xAxis);
+            
+            const yAxis = document.createElement('div');
+            yAxis.className = 'axis';
+            yAxis.style.left = centerX + 'px';
+            yAxis.style.top = '0';
+            yAxis.style.width = '2px';
+            yAxis.style.height = height + 'px';
+            graphContainer.appendChild(yAxis);
+            
+            const xLabel = document.createElement('div');
+            xLabel.className = 'axis-label';
+            xLabel.textContent = 'X';
+            xLabel.style.left = (width - 15) + 'px';
+            xLabel.style.top = (centerY + 5) + 'px';
+            graphContainer.appendChild(xLabel);
+            
+            const yLabel = document.createElement('div');
+            yLabel.className = 'axis-label';
+            yLabel.textContent = 'Y';
+            yLabel.style.left = (centerX + 5) + 'px';
+            yLabel.style.top = '5px';
+            graphContainer.appendChild(yLabel);
+            
+            const step = 0.05;
+            const range = 5 / scale;
+            
+            for (let x = -range; x <= range; x += step) {
+                const y = calculateFunction(x);
+                const pointX = centerX + x * pixelsPerUnit;
+                const pointY = centerY - y * pixelsPerUnit;
+                
+                if (pointX >= 0 && pointX <= width && pointY >= 0 && pointY <= height) {
+                    const point = document.createElement('div');
+                    point.className = 'point';
+                    point.style.left = pointX + 'px';
+                    point.style.top = pointY + 'px';
+                    graphContainer.appendChild(point);
+                }
+            }
+        }
+
+        document.getElementById('zoomIn').addEventListener('click', function() {
+            scale += scaleStep;
+            updateURL();
+            drawGraph();
+        });
+        
+        document.getElementById('zoomOut').addEventListener('click', function() {
+            if (scale > scaleStep) {
+                scale -= scaleStep;
+                updateURL();
+                drawGraph();
+            }
+        });
+        
+        document.getElementById('moveLeft').addEventListener('click', function() {
+            xOffset -= moveStep;
+            updateURL();
+            drawGraph();
+        });
+        
+        document.getElementById('moveRight').addEventListener('click', function() {
+            xOffset += moveStep;
+            updateURL();
+            drawGraph();
+        });
+        
+        document.getElementById('moveUp').addEventListener('click', function() {
+            yOffset -= moveStep;
+            updateURL();
+            drawGraph();
+        });
+        
+        document.getElementById('moveDown').addEventListener('click', function() {
+            yOffset += moveStep;
+            updateURL();
+            drawGraph();
+        });
+        
+        updateURL();
+        drawGraph();
+    </script>
+</body>
+</html>
