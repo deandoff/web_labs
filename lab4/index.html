@@ -74,7 +74,7 @@
             const daysUntilSession = Math.ceil((sessionDate - now) / (1000 * 60 * 60 * 24));
             document.getElementById("daysUntilSession").value = daysUntilSession > 0 ? daysUntilSession : 0;
         }
-
+        
         function calculateSum() {
             const input = document.getElementById("inputRange").value.split(',');
             const a = parseInt(input[0]);
@@ -114,8 +114,8 @@
                 return;
             }
 
-            const firstTermIndex = +params[0];
-            const numberOfTerms = +params[1];
+            const firstTermIndex = Number(params[0]);
+            const numberOfTerms = Number(params[1]);
 
             let sum = 0;
             for (let n = firstTermIndex; n < firstTermIndex + numberOfTerms; n++) {
@@ -128,7 +128,7 @@
         document.getElementById("rememberDateButton").addEventListener("click", rememberDate);
         document.getElementById("calculateSequenceButton").addEventListener("click", calculateSequenceSum);
 
-        window.onload = displayCurrentDate;
+        displayCurrentDate();
     </script>
 </body>
 </html>

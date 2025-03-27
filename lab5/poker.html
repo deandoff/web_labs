@@ -4,64 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Покерная раздача</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-        .card-inputs {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 15px;
-            margin-bottom: 20px;
-        }
-        .card-select {
-            display: flex;
-            flex-direction: column;
-            gap: 5px;
-        }
-        select {
-            padding: 5px;
-        }
-        button {
-            padding: 10px 20px;
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 16px;
-            margin-bottom: 20px;
-        }
-        button:hover {
-            background-color: #45a049;
-        }
-        .hand-container {
-            display: flex;
-            gap: 10px;
-            margin: 20px 0;
-            flex-wrap: wrap;
-        }
-        .card-img {
-            width: auto;
-            height: auto;
-            border-radius: 5px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-        }
-        .result {
-            margin-top: 20px;
-            padding: 15px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            background-color: #f9f9f9;
-            font-size: 18px;
-        }
-        h1 {
-            color: #333;
-        }
-    </style>
+    <link rel="stylesheet" href="poker.css">
 </head>
 <body>
     <h1>Проверка стрит-флеша с изображениями карт</h1>
@@ -233,9 +176,10 @@
             const firstSuit = hand[0].suit;
             if (!hand.every(card => card.suit === firstSuit)) {
                 return false;
-            }   
+            }
+
             const rankValues = hand.map(card => getRankValue(card.rank));
-            
+
             rankValues.sort((a, b) => a - b);
             if (rankValues[4] - rankValues[0] === 4 && new Set(rankValues).size === 5) {
                 return true;
