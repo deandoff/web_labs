@@ -1,0 +1,13 @@
+{
+  "name": "car-parking-server",
+  "version": "1.0.0",
+  "description": "Сервер для учета автомобилей на автостоянке",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.21.2",
+    "mongoose": "^8.13.2"
+  }
+}
